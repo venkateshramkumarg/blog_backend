@@ -7,7 +7,7 @@ import commentsGroup from './api/comments'
 const app = new Hono().basePath('/api')
 
 app.use('*', cors({
-  origin: ['http://localhost:3001'], 
+  origin: ['*'], 
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE'], 
   allowHeaders: ['Content-Type', 'Authorization'],
 }));
