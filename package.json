@@ -1,0 +1,14 @@
+{
+  "name": "blog_backend",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.19.1",
+    "hono": "^4.5.6"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "prisma": "^5.19.1"
+  }
+}
