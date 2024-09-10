@@ -8,12 +8,13 @@ yarn-error.log
 yarn-debug.log
 
 # Editor-specific files
-.idea
+.idea/
 .vscode/
 *.suo
 
 # Log files
 logs/
+*.log
 
 # Build artifacts
 build/
@@ -27,7 +28,7 @@ coverage/
 Thumbs.db
 
 # Local configuration files
-.env*
+.env
 
 # Prisma files
 prisma/migrations/
