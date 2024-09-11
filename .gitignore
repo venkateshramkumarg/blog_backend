@@ -30,9 +30,6 @@ Thumbs.db
 # Local configuration files
 .env
 
-# Prisma files
-prisma/migrations/
-prisma/schema.prisma
 
 # Hono specific files
 .hono/
