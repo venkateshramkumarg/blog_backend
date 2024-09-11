@@ -4,16 +4,15 @@ import { PrismaClient } from '@prisma/client'
 const postsGroup= new Hono()
 const prisma = new PrismaClient()
 
-postsGroup.post('/create',async(c)=>{
-    try
-    {
-        const{title,content,user_name}=await c.req.json()
-        console.log(title,content,user_name)
-        const post=await prisma.post.create({
-            data:{
+postsGroup.post('/create', async (c) => {
+    try {
+        const { title, content, user_name,image} = await c.req.json();
+        console.log(title, content, user_name);
+        const post = await prisma.post.create({
+            data: {
                 title,
                 content,
-                user_name,
+                image:image,
                 likes: 0,
                 dislikes: 0,
                 User: {
@@ -22,79 +21,68 @@ postsGroup.post('/create',async(c)=>{
                     }
                 }
             }
-        })
-        return c.json("Post Created")
-    }
-    catch(e)
-    {
+        });
+        return c.json("Post Created");
+    } catch (e) {
         console.log(e);
-        return c.json({error:e})
+        return c.json({ error: e });
+    } finally {
+        await prisma.$disconnect();
     }
-    finally
-    {
-        await prisma.$disconnect()
-    }
-})
+});
 
-postsGroup.post('limit/all',async(c)=>{
-    try
-    {  
-        let hasMany=true
-        let {page,limit}=await c.req.json()
-        const postslength=await prisma.post.count()
-        if(postslength<page*limit)
-        {
-            limit=postslength-(page-1)*limit
-            console.log(limit);
+postsGroup.post('limit/all', async (c) => {
+    try {
+        let hasMany = true;
+        let { page, limit } = await c.req.json();
+        const postslength = await prisma.post.count();
+        if (postslength <= page * limit) {
+            limit = postslength - (page - 1) * limit;
+            hasMany=false;
+            
         }
-        if(limit<=1)
+        if (limit <=1) 
         {
-            hasMany=false
+            hasMany = false;
         }
-        
-        const posts=await prisma.post.findMany({
-            select:{
-                id:true,
-                title:true,
-                content:true,
-                user_name:true,
-                likes:true,
-                dislikes:true,
-                created_at:true,
-                comments:true,
-                liked_by:true,
-                disliked_by:true,
-                User:{
-                    select:{
-                        avatar_url:true
+
+        const posts = await prisma.post.findMany({
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                user_name: true,
+                image:true,
+                likes: true,
+                dislikes: true,
+                created_at: true,
+                comments: true,
+                liked_by: true,
+                disliked_by: true,
+                User: {
+                    select: {
+                        avatar_url: true
                     }
                 }
             },
-            orderBy:{
-                created_at:"desc"
+            orderBy: {
+                created_at: "desc"
             },
-            skip:(page-1)*2,
-            take:limit
-        })
-        
+            skip: (page - 1) *2,
+            take:2
+        });
 
-        if(posts.length==0)
-        {
-            return c.json( "Return No Post");
-
+        if (posts.length === 0) {
+            return c.json({posts, hasMany: false});
         }
-        return c.json({ posts, hasMany:hasMany})
+        return c.json({ posts, hasMany: hasMany });
 
+    } catch (e) {
+        return c.json({ error: e });
+    } finally {
+        await prisma.$disconnect();
     }
-    catch(e)
-    {
-        return c.json({error:e})
-    }
-    finally
-    {
-        await prisma.$disconnect()
-    }
-})
+});
 
 postsGroup.post('/all',async(c)=>{
     try
@@ -105,6 +93,7 @@ postsGroup.post('/all',async(c)=>{
                 title:true,
                 content:true,
                 user_name:true,
+                image:true,
                 likes:true,
                 dislikes:true,
                 created_at:true,
@@ -147,6 +136,7 @@ postsGroup.get('/post/:id',async(c)=>{
                 title:true,
                 content:true,
                 user_name:true,
+                image:true,
                 likes:true,
                 dislikes:true,
                 created_at:true,

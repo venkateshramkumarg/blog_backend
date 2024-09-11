@@ -8,6 +8,7 @@ usersGroup.post('/register',async(c)=>{
     try
     {
         const{user_name,password,avatar_url}=await c.req.json()
+        console.log(user_name,password,avatar_url);
         
         const existing_user=await prisma.user.findUnique({
             where:{
@@ -20,6 +21,7 @@ usersGroup.post('/register',async(c)=>{
 
         if(existing_user==null)
         {
+            console.log('Creating User');
             const user=await prisma.user.create({
                 data:{
                     user_name,
