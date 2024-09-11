@@ -28,7 +28,8 @@ coverage/
 Thumbs.db
 
 # Local configuration files
-.env
+.env/
+
 
 
 # Hono specific files

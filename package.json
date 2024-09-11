@@ -2,7 +2,8 @@
   "name": "blog_backend",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
-    "build": "bun build src/index.ts"
+    "build": "bun build src/index.ts",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
