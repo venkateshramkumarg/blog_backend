@@ -1,1 +1,0 @@
-services:  - type: web    name: my-hono-app    env: node    buildCommand: "bun install"    startCommand: "bun run start"    plan: free    envVars:      - key: DATABASE_URL:"postgresql://neondb_owner:AL6fHEvG2JTm@ep-lucky-bar-a5z91qry.us-east-2.aws.neon.tech/neondb?sslmode=require"       value: ""    autoDeploy: true

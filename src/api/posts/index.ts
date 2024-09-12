@@ -126,7 +126,6 @@ postsGroup.get('/post/:id',async(c)=>{
     try
     {
         const {id}=c.req.param()
-        console.log(id);
         const post=await prisma.post.findUnique({
             where:{
                 id:Number(id)
